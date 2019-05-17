@@ -17,3 +17,17 @@ The principal purpose behind this repo is to automate the setup of a linux envir
 
 ## usage
   `bash install_gnupg.sh <e-mail address>`
+
+## other notes
+How to remove specific ssh keys from keyring:
+
+### list all keys to identify which one
+`ssh-add -L`
+
+### list all md5 key hashes to match that with previous step
+`ssh-add -E md5 -l`
+
+### list all md5 key hashes of those stored in gpg
+`gpg-connect-agent 'keyinfo --ssh-list --ssh-fpr'`
+then remove the appropriate entry from ~/.gnupg/sshcontrol
+remove the file in ~/.gnupg/private-keys-v1.d/
