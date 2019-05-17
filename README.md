@@ -12,7 +12,8 @@ The principal purpose behind this repo is to automate the setup of a linux envir
 ## current prerequisites:
   - Yubikey 4+
   - setup the Yubikey's GPG slot with signing, encryption, and authentication keys
-  - publish your public GPG keys to `keys.gnupg.net` or other public GPG service
+      - [Great blog post on setting this up](https://www.esev.com/blog/post/2015-01-pgp-ssh-key-on-yubikey-neo/ "Eric Severance's Blog Post")
+  - publish your public GPG keys to `keys.gnupg.net` or other public GPG service (this is also covered by the blog post)
 
 ## usage
   `bash install_gnupg.sh <e-mail address>`
