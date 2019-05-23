@@ -31,3 +31,15 @@ How to remove specific ssh keys from keyring:
 `gpg-connect-agent 'keyinfo --ssh-list --ssh-fpr'`
 then remove the appropriate entry from ~/.gnupg/sshcontrol
 remove the file in ~/.gnupg/private-keys-v1.d/
+
+# Setting up Yubikey passthrough to multiple machines
+  - [reference blog for most of it](https://mlohr.com/gpg-agent-forwarding/ "Matthias Lohr Blog Post")
+## local machine (where Yubikey is plugged in)
+### add .ssh/config setting
+`Host <remote machine name>`
+`    RemoteForward /run/user/<remote user id>/gnupg/S.gpg-agent /run/user/<local user id>/gnupg/S.gpg-agent.extra`
+`    RemoteForward /run/user/<remote user id>/gnupg/S.gpg-agent.ssh /run/user/<local user id>/gnupg/S.gpg-agent.ssh`
+## remote machine (where you want to utilize the local Yubikey from)
+### update /etc/ssh/sshd_config
+Add the following:\
+`StreamLocalBindUnlink yes`
