@@ -35,7 +35,7 @@ fi
 
 echo "checking if required packages are installed..."
 packages_needed=false
-packages=(curl gnupg2 gnupg-agent scdaemon pcscd pcsc-tools wget)
+packages=(curl gnupg2 gnupg-agent scdaemon pcscd pcsc-tools wget dirmngr)
 for pkg in ${packages[@]}; do
     dpkg -s $pkg 2>/dev/null 1>&2 
     if [ $? -ne 0 ]; then
