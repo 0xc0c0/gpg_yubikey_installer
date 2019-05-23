@@ -106,6 +106,16 @@ else
     cat .bash_gpgagent >> ~/.bashrc
 fi
 
+if [ -f ~/.zshrc]; then
+    cat ~/.zshrc | grep 'gpg-agent' 1>/dev/null 2>&1
+    if [ $? -eq 0 ]; then
+    echo "found 'gpg-agent' in .zshrc file already..."
+    else
+        echo "adding gpg-agent to .zshrc file"
+	cat .bash_gpgagent >> ~/.zshrc
+    fi
+fi
+
 echo "restarting agents"
 pkill ssh-agent
 pkill gpg-agent
