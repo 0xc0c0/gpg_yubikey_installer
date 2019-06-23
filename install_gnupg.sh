@@ -2,7 +2,7 @@
 
 gpg_loc=~/.gnupg
 gpg_conf_file="gpg.conf"
-gpg_keyserver="keys.gnupg.net"
+gpg_keyserver="pgp.key-server.io"
 
 usage_stmt="usage: bash ${0##*/} <e-mail for gpg import>"
 
@@ -73,10 +73,12 @@ else
     chmod 600 $gpg_loc/$gpg_conf_file
 fi
 
-gpg2 --keyserver $gpg_keyserver --search-keys $import_key_email
-if [ $? -ne 0 ]; then
+gpg --keyserver $gpg_keyserver --search-keys $import_key_email
+if [ "$?" != '0' ]; then
     echo "failed to complete key import, exiting..."
     exit 3
+else
+    echo "success"
 fi
 echo $'\nhere is the current state of the key database:'
 gpg2 --fingerprint
