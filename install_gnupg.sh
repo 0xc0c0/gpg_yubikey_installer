@@ -99,6 +99,13 @@ else
     wget https://raw.githubusercontent.com/drduh/config/master/$gpg_agent_conf_file -O $gpg_loc/$gpg_agent_conf_file
 fi
 
+#fix up gpg-agent file if the GUI pinentry program exists
+if [[ -f $(which pinentry) && -f $gpg_loc/$gpg_agent_conf_file ]]; then
+    echo "fixing up $gpg_agent_conf_file..."
+    sed -i -E 's/^(pinentry-program.*)/#\1/g' $gpg_loc/$gpg_agent_conf_file
+    echo "pinentry-program $(which pinentry)" >> $gpg_loc/$gpg_agent_conf_file
+fi
+
 echo "checking .bashrc file..."
 cat ~/.bashrc | grep 'gpg-agent' 1>/dev/null 2>&1
 if [ $? -eq 0 ]; then
@@ -122,5 +129,12 @@ echo "restarting agents"
 pkill ssh-agent
 pkill gpg-agent
 
-echo "recommend logging into a new shell or sourcing .bashrc before testing"
-echo "also, since this script points the active tty to the current window when .bashrc is run, if using multiple console windows, you will need to source .bashrc again in the active window before utilzing the gpg-agent backend (such as smart card unlock), unless the active window is the last one opened."
+echo "recommend logging into a new shell or sourcing .bashrc/.zshrc before testing"
+echo "NOTE: a GUI SmartCard PIN entry program (configured using 'pinentry-program' in $gpg_agent_conf_file is recommended, particularly if using multiple terminals.  Otherwise, ensure the last opened terminal/session is used for the initial PIN entry to unlock the Yubikey, or glitches and/or SENSITIVE PIN leakage may occur"
+
+echo -n "restarting GPG agent... "
+gpg-connect-agent killagent /bye 1>/dev/null 2>&1
+gpg-connect-agent /bye 
+echo "restarted."
+
+
