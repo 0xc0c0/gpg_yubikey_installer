@@ -2,7 +2,7 @@
 
 gpg_loc=~/.gnupg
 gpg_conf_file="gpg.conf"
-gpg_keyserver="keys.openpgp.org"
+gpg_keyserver="keyserver.ubuntu.com"
 
 usage_stmt="usage: bash ${0##*/} <e-mail for gpg import>"
 
